@@ -40,16 +40,24 @@ namespace Huffman_Coding
             BuildHuffmanCodes(tree.Root);
             string binary = ConvertToBinary(input);
             string text = ConvertToText(binary);
-
-            Display(binary, text);
+            double percentageDifference = CalculatePercentageDifference(binary, input);
+            Display(binary, text, percentageDifference);
         }
 
-        private static void Display(string binary, string text)
+        private static double CalculatePercentageDifference(string binary, string original)
+        {
+            double binaryBytes = binary.Length;
+            double originalBytes = original.Length * 8;
+            double percentageDifference = (1.0 - binaryBytes / originalBytes) * 100;
+            return Math.Round(percentageDifference, 2);
+        }
+
+        private static void Display(string binary, string text, double percentageDifference)
         {
             Console.Write("Press any key to show compressed text (as binary).");
             Console.ReadKey(true);
             Console.Clear();
-            Console.WriteLine(binary);
+            Console.WriteLine(binary + Environment.NewLine + Environment.NewLine + "File size reduced by: " + percentageDifference + "%.");
             Console.WriteLine(Environment.NewLine + "Press any key to decompress to readable text.");
             Console.ReadKey(true);
             Console.Clear();
